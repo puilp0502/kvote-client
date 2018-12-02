@@ -37,7 +37,7 @@ export default class Vote extends Component {
         }).then(resp => {
             if (resp.status === 200) this.setState({voteStatus: VoteStatus.CASTED});
         }).catch(err => {
-            console.log("error occured:", err);
+            console.log("error occured:", err)
             this.setState({voteStatus: VoteStatus.WAITING});
         })
     }
@@ -54,7 +54,7 @@ export default class Vote extends Component {
                 onSelect={() => this.onSelect(i)}
                 selected={this.state.currentSelection === i} />);
         return (
-            <div>
+            <div className="root">
                 <div id="vote-header">
                     <div>현재 투표중:</div>
                     <h1><span>{ ballot.title }</span><span id="code">{"#" + this.props.code}</span></h1>
@@ -66,7 +66,14 @@ export default class Vote extends Component {
                     <button disabled={this.state.voteStatus !== VoteStatus.WAITING} onClick={this.onSubmit}>투표</button>
                 </div>
                 <style jsx>{`
-                
+                    .root {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+                    #vote-candidates {
+                        perspective: 500px;
+                    }
                 `}</style>
             </div>
         )
