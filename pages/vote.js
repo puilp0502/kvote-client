@@ -6,9 +6,12 @@ import axios from '../axios';
 import Candidate from '../components/Candidate';
 
 
+const VoteStatus = Object.freeze({WAITING: 0, CASTING: 1, CASTED: 2});
+
 export default class Vote extends Component {
     state = {
-        currentSelection: 0,
+        currentSelection: -1,
+        voteStatus: VoteStatus.WAITING,
     }
     static async getInitialProps({ req, query }) {
         try {
@@ -22,20 +25,49 @@ export default class Vote extends Component {
             return { error: {message: "알 수 없는 오류", statusCode: 500} };
         }
     }
+    onSelect = (i) => {
+        this.setState({currentSelection: i});
+    }
+    onSubmit = () => {
+        console.log("Submit " + this.state.currentSelection);
+        this.setState({voteStatus: VoteStatus.CASTING});
+        axios.post("/votes/" + this.props.code, {
+            selection: this.state.currentSelection,
+            caster: navigator.userAgent,
+        }).then(resp => {
+            if (resp.status === 200) this.setState({voteStatus: VoteStatus.CASTED});
+        }).catch(err => {
+            console.log("error occured:", err);
+            this.setState({voteStatus: VoteStatus.WAITING});
+        })
+    }
     render() {
         if (this.props.error) {
             return <Error statusCode={this.props.error.statusCode} />
         }
         let { ballot } = this.props;
         let options = ballot.options;
-        let candidates = options.map(({ title }, i) => <Candidate key={i} title={`${i + 1}. ${title}`} />)
+        let candidates = options.map(({ title }, i) => 
+            <Candidate 
+                key={i} 
+                title={`${i + 1}. ${title}`} 
+                onSelect={() => this.onSelect(i)}
+                selected={this.state.currentSelection === i} />);
         return (
             <div>
-                <div id="voteHeader">
+                <div id="vote-header">
                     <div>현재 투표중:</div>
                     <h1><span>{ ballot.title }</span><span id="code">{"#" + this.props.code}</span></h1>
                 </div>
-                { candidates }
+                <div id="vote-candidates">
+                    { candidates }
+                </div>
+                <div id="vote-form">
+                    <button disabled={this.state.voteStatus !== VoteStatus.WAITING} onClick={this.onSubmit}>투표</button>
+                </div>
+                <style jsx>{`
+                
+                `}</style>
             </div>
         )
     }
