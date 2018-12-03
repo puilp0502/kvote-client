@@ -9,6 +9,9 @@ export default class Index extends Component {
     onTextChange = (e) => {
         this.setState({code: e.target.value.toUpperCase()});
     }
+    onKeyPress = (e) => {
+        if (e.key === 'Enter') this.onSubmit();
+    }
     onSubmit = () => {
         console.log("Entering ballot room " + this.state.code);
         Router.pushRoute('/vote/' + this.state.code);
@@ -20,14 +23,15 @@ export default class Index extends Component {
                     <title>K-Vote</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport"/>
                     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet" key="stylesheet-notosans"/>
+                    <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet" key="stylesheet-montserrat"/>
                 </Head>
                 <div className="heading">
                     <h1 id="title">K-VOTE</h1>
                     <div id="heading-description">kweb voting system</div>
                 </div>
                 <div className="form">
-                    <div>enter ballot code:</div>
-                    <input type="text" id="code" onChange={this.onTextChange} value={this.state.code}></input>
+                    <div className="instruction">enter ballot code:</div>
+                    <input type="text" autocorrect="off" id="code" onChange={this.onTextChange} onKeyPress={this.onKeyPress} value={this.state.code}></input>
                     <button onClick={this.onSubmit}>Enter</button>
                 </div>
                 <style jsx>{`
@@ -41,8 +45,39 @@ export default class Index extends Component {
                     justify-items: center;
                     align-items: center;
                 }
+                .heading {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
                 h1 {
                     flex-grow: 1;
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 300;
+                    font-size: 3rem;
+                }
+                #heading-description {
+                    font-family: 'Noto Sans KR', sans-serif;
+                    letter-spacing: 2px;
+                }
+                .form {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .form .instruction {
+                    font-family: 'Noto Sans KR', sans-serif;
+                    letter-spacing: 2px;
+                }
+                .form input {
+                    box-sizing: border-box;
+                    font-size: 2rem;
+                    text-align: center;
+                    letter-spacing: .5rem;
+                    width: 13rem;
+                    padding: .5rem;
+                    margin: .5rem;
+                    border: 1px solid rgba(128, 128, 128, 0.7);
                 }
                 `}</style>
                 <style jsx global>{`
