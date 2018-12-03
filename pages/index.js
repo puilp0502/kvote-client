@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Head from 'next/head';
 import { Router } from '../routes';
 
 export default class Index extends Component {
@@ -15,7 +16,15 @@ export default class Index extends Component {
     render() {
         return (
             <div className="root">
-                <h1>K-VOTE</h1>
+                <Head>
+                    <title>K-Vote</title>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport"/>
+                    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet" key="stylesheet-notosans"/>
+                </Head>
+                <div className="heading">
+                    <h1 id="title">K-VOTE</h1>
+                    <div id="heading-description">kweb voting system</div>
+                </div>
                 <div className="form">
                     <div>enter ballot code:</div>
                     <input type="text" id="code" onChange={this.onTextChange} value={this.state.code}></input>
