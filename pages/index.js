@@ -64,6 +64,7 @@ export default class Index extends Component {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    margin-top: 100px;
                 }
                 .form .instruction {
                     font-family: 'Noto Sans KR', sans-serif;
@@ -78,6 +79,13 @@ export default class Index extends Component {
                     padding: .5rem;
                     margin: .5rem;
                     border: 1px solid rgba(128, 128, 128, 0.7);
+                }
+                button {
+                    background-color: white;
+                    font-size: 1rem;
+                    font-family: sans-serif;
+                    border-radius: 5px;
+                    padding: 5px 10px 5px 10px;
                 }
                 `}</style>
                 <style jsx global>{`
