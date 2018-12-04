@@ -31,7 +31,7 @@ export default class Index extends Component {
                 </div>
                 <div className="form">
                     <div className="instruction">enter ballot code:</div>
-                    <input type="text" autocorrect="off" id="code" onChange={this.onTextChange} onKeyPress={this.onKeyPress} value={this.state.code}></input>
+                    <input type="text" autoCorrect="off" id="code" onChange={this.onTextChange} onKeyPress={this.onKeyPress} value={this.state.code}></input>
                     <button onClick={this.onSubmit}>Enter</button>
                 </div>
                 <style jsx>{`
