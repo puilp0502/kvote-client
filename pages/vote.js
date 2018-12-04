@@ -4,7 +4,7 @@ import Error from 'next/error';
 import Head from 'next/head';
 import axios from '../axios';
 
-import Candidate from '../components/Candidate';
+import CandidateList from '../components/CandidateList';
 import VoteButton from '../components/VoteButton';
 
 import { VoteStatus } from '../enums';
@@ -70,14 +70,8 @@ export default class Vote extends Component {
             return <Error statusCode={this.props.error.statusCode} />
         }
         let { ballot } = this.props;
-        let { voteStatus } = this.state;
+        let { currentSelection, voteStatus } = this.state;
         let options = ballot.options;
-        let candidates = options.map(({ title }, i) => 
-            <Candidate 
-                key={i} 
-                title={`${i + 1}. ${title}`} 
-                onSelect={() => this.onSelect(i)}
-                selected={this.state.currentSelection === i} />);
         let voteText = voteStatus === VoteStatus.WAITING ? "투표" : (voteStatus === VoteStatus.CASTING ? "투표 중..." : "투표 완료")
         return (
             <div className="root">
@@ -98,9 +92,7 @@ export default class Vote extends Component {
                         <h1><span className="ballot-title">{ ballot.title }</span><span className="ballot-code">{"#" + this.props.code}</span></h1>
                     </div>
                 </div>
-                <div id="vote-candidates">
-                    { candidates }
-                </div>
+                <CandidateList options={options} currentSelection={currentSelection} onSelect={this.onSelect}/>
                 <div id="vote-form">
                     <VoteButton status={this.state.voteStatus} onClick={this.onSubmit}>{voteText}</VoteButton>
                 </div>
@@ -172,12 +164,6 @@ export default class Vote extends Component {
                     .scrolled .ballot-code {
                         font-size: 1rem;
                         font-weight: 300;
-                    }
-                    #vote-candidates {
-                        perspective: 500px;
-                        width: 70%;
-                        min-width: 16rem;
-                        max-width: 36rem;
                     }
                     #vote-form {
                         margin: 1rem;
