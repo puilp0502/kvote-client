@@ -148,6 +148,7 @@ export default class Vote extends Component {
                         display: none;
                     }
                     .ballot-title {
+                        font-family: 'Noto Sans KR', sans-serif;
                         font-weight: 300;
                         letter-spacing: 3px;
                         font-size: 2rem;
@@ -156,6 +157,7 @@ export default class Vote extends Component {
                         font-size: 1.4rem;
                     }
                     .ballot-code {
+                        font-family: 'Noto Sans KR', sans-serif;
                         font-size: 1.6rem;
                         letter-spacing: 1px;
                         color: darkgrey;
